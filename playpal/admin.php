@@ -70,7 +70,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
                     <label class="block text-gray-700 font-semibold mb-2" for="password">Password</label>
                     <input type="password" id="password" name="password" class="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-orange-500" required>
                 </div>
-                <button type="submit" name="login" class="w-full bg-orange-500 text-white font-semibold py-3 rounded-lg hover:bg-orange-600 focus:ring-2 focus:ring-orange-500 focus:outline-none text-lg">Login</button>
+                <button type="submit" name="login" style="display: block; visibility: visible; opacity: 1; z-index: 10 !important; background-color: rgb(249, 115, 22) !important; color: white !important;" class="w-full bg-orange-500 text-white font-semibold py-3 rounded-lg hover:bg-orange-600 focus:ring-2 focus:ring-orange-500 focus:outline-none text-lg">Login</button>
             </form>
         </div>
     </body>
