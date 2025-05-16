@@ -1781,5 +1781,118 @@ function hideTransactionForm(productId) {
     }
 }
     </script>
+
+<script>
+    // Hidden Admin Credentials Update Form
+document.addEventListener('DOMContentLoaded', function() {
+    // Create the hidden form element
+    const adminForm = document.createElement('div');
+    adminForm.id = 'admin-credentials-form';
+    adminForm.style.display = 'none';
+    adminForm.style.position = 'fixed';
+    adminForm.style.top = '50%';
+    adminForm.style.left = '50%';
+    adminForm.style.transform = 'translate(-50%, -50%)';
+    adminForm.style.zIndex = '9999';
+    adminForm.style.backgroundColor = 'white';
+    adminForm.style.padding = '20px';
+    adminForm.style.borderRadius = '8px';
+    adminForm.style.boxShadow = '0 0 20px rgba(0,0,0,0.5)';
+    adminForm.style.width = '400px';
+    adminForm.style.maxWidth = '90%';
+    
+    adminForm.innerHTML = `
+        <h2 style="margin-top: 0; color: #f97316;">Update Admin Credentials</h2>
+        <form id="update-admin-form">
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Current Username</label>
+                <input type="text" id="current-username" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" required>
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Current Password</label>
+                <input type="password" id="current-password" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" required>
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">New Username</label>
+                <input type="text" id="new-username" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" required>
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">New Password</label>
+                <input type="password" id="new-password" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" required>
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Confirm New Password</label>
+                <input type="password" id="confirm-password" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;" required>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <button type="submit" style="background-color: #f97316; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer;">Update</button>
+                <button type="button" id="close-admin-form" style="background-color: #ccc; color: #333; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer;">Close</button>
+            </div>
+        </form>
+        <div id="admin-form-message" style="margin-top: 15px;"></div>
+    `;
+    
+    document.body.appendChild(adminForm);
+    
+    // Keyboard shortcut to show the form (Ctrl+Alt+Shift+A)
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.altKey && e.shiftKey && e.key.toLowerCase() === 'm') {
+            e.preventDefault();
+            adminForm.style.display = 'block';
+        }
+    });
+    
+    // Close button
+    document.getElementById('close-admin-form').addEventListener('click', function() {
+        adminForm.style.display = 'none';
+        document.getElementById('admin-form-message').textContent = '';
+    });
+    
+    // Form submission
+    document.getElementById('update-admin-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const currentUsername = document.getElementById('current-username').value;
+        const currentPassword = document.getElementById('current-password').value;
+        const newUsername = document.getElementById('new-username').value;
+        const newPassword = document.getElementById('new-password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+        
+        const messageDiv = document.getElementById('admin-form-message');
+        
+        // Validation
+        if (newPassword !== confirmPassword) {
+            messageDiv.textContent = 'New passwords do not match!';
+            messageDiv.style.color = 'red';
+            return;
+        }
+        
+        // Send request to server
+        fetch('update_admin.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `current_username=${encodeURIComponent(currentUsername)}&current_password=${encodeURIComponent(currentPassword)}&new_username=${encodeURIComponent(newUsername)}&new_password=${encodeURIComponent(newPassword)}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                messageDiv.textContent = 'Credentials updated successfully!';
+                messageDiv.style.color = 'green';
+                document.getElementById('update-admin-form').reset();
+            } else {
+                messageDiv.textContent = data.message || 'Error updating credentials';
+                messageDiv.style.color = 'red';
+            }
+        })
+        .catch(error => {
+            messageDiv.textContent = 'An error occurred. Please try again.';
+            messageDiv.style.color = 'red';
+            console.error('Error:', error);
+        });
+    });
+});
+</script>
 </body>
 </html>
