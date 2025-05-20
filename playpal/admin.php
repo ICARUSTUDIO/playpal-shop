@@ -124,17 +124,7 @@ $success = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
     $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
     $description = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
-    $product_type = $_POST['product_type'] === 'rent' ? 'rent' : 'buy';
-    
-    if($product_type === 'rent') {
-        $rent_price = filter_var($_POST['rent_price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-        $price = 0;
-        $sale_price = null;
-    } else {
-        $price = filter_var($_POST['price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-        $sale_price = !empty($_POST['sale_price']) ? filter_var($_POST['sale_price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION) : null;
-        $rent_price = null;
-    }
+    $price = filter_var($_POST['price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $sale_price = !empty($_POST['sale_price']) ? filter_var($_POST['sale_price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION) : null;    $game_id = filter_var($_POST['game_id'], FILTER_SANITIZE_NUMBER_INT);
     $is_rentable = isset($_POST['is_rentable']) ? 1 : 0;
     $rent_price = $is_rentable ? filter_var($_POST['rent_price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION) : null;
