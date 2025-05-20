@@ -316,8 +316,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_giveaway_entry
 .transaction-form-container::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+/* Add this to your style section */
+.heading-image-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+}
 
+.heading-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7); /* Darken the image */
+}
 
+.heading-text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    width: 100%;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.heading-text-overlay h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+/* For mobile responsiveness */
+@media (max-width: 768px) {
+    .heading-image-container {
+        height: 150px;
+    }
+    
+    .heading-text-overlay h1 {
+        font-size: 2.5rem;
+    }
+}
     </style>
 
 <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
@@ -375,132 +418,127 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_giveaway_entry
                 </div>
             </section>
 
-            <!-- How It Works Section (Epic Gaming Adventures) -->
-            <section class="py-16 text-center" data-aos="fade-in">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">Epic Gaming Adventures</h2>
-                <div class="max-w-4xl mx-auto space-y-12">
-                    <div class="flex flex-col items-center">
-                        <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white mb-4">
-                            <i class="fas fa-gamepad text-2xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-semibold text-gray-800">Choose a Game & Service</h3>
-                            <p class="text-gray-600">Browse our extensive library of games and services tailored for you.</p>
-                        </div>
+        <!-- How It Works Section (Epic Gaming Adventures) -->
+    <section class="py-16 px-4 sm:px-6 bg-gray-50" data-aos="fade-in">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-gray-800 mb-12 text-center">Epic Gaming Adventures</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <div class="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center text-white mb-4 mx-auto">
+                        <i class="fas fa-gamepad text-2xl"></i>
                     </div>
-                    <div class="flex flex-col items-center">
-                        <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white mb-4">
-                            <i class="fas fa-paper-plane text-2xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-semibold text-gray-800">Submit a Request</h3>
-                            <p class="text-gray-600">Submit your services request easily and let us handle the rest.</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white mb-4">
-                            <i class="fas fa-check-circle text-2xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-semibold text-gray-800">We Get It Done!</h3>
-                            <p class="text-gray-600">Sit back, relax, and let us level up your gaming experience for you!</p>
-                        </div>
-                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Choose a Game & Service</h3>
+                    <p class="text-gray-600">Browse our extensive library of games and services tailored for you.</p>
                 </div>
-            </section>
-
-            <!-- Trending Games Section -->
-            <section class="bg-white py-16 text-center" data-aos="fade-in">
-                <h2 class="text-3xl font-bold text-orange-500 mb-8">Trending Games</h2>
-                <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <a href="?section=products&game=Call of Duty" class="block">
-                        <div class="bg-gray-100 rounded-lg overflow-hidden" data-aos="fade-up">
-                            <img src='https://lh3.googleusercontent.com/blogger_img_proxy/AEn0k_uQnubLCNMKWx-RJpyGDG2KZEhx-XoMpx0-XsQ3o1YU6VRKW_S-qJD_mxxnq2_Zs7dpkWryd-AZIBhsLAY875E_YTpZwsCokrkDqH7xGZUV0jhfHS8Kzwz_bYlPIVXLV4UHP4WbqFjWQpEIsOLeRa0H=w919-h516-p-k-no-nu' alt="Call of Duty" class="w-full h-48 object-cover">
-                            <h3 class="text-xl font-semibold text-orange-500 py-4">Call of Duty</h3>
-                        </div>
-                    </a>
-                    <a href="?section=products&game=Mortal Kombat" class="block">
-                        <div class="bg-gray-100 rounded-lg overflow-hidden" data-aos="fade-up">
-                            <img src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgzwd-KXPRxTWf1j6SdN2GQW1Xxq0wVsieThFVfv1MaFDiZZcbVWpwDYgkmBjenaw0Psb2U5TpNIJWgjl8179Ntqd8CKLGS9_8NFoeelbDozk3m4Ua8-MWgQfC-nADb6XW2oXoR_AkMSOF4/w919-h516-p-k-no-nu/mortal-kombat-movie-characters-poster-uhdpaper.com-4K-7.3531-wp.thumbnail.jpg' alt="Mortal Kombat" class="w-full h-48 object-cover">
-                            <h3 class="text-xl font-semibold text-orange-500 py-4">Mortal Kombat</h3>
-                        </div>
-                    </a>
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <div class="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center text-white mb-4 mx-auto">
+                        <i class="fas fa-paper-plane text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Submit a Request</h3>
+                    <p class="text-gray-600">Submit your services request easily and let us handle the rest.</p>
                 </div>
-            </section>
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <div class="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center text-white mb-4 mx-auto">
+                        <i class="fas fa-check-circle text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">We Get It Done!</h3>
+                    <p class="text-gray-600">Sit back, relax, and let us level up your gaming experience for you!</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <!-- Why Gamers Trust Us Section -->
-            <section class.ConcurrentHashMap="py-16 text-center" data-aos="fade-in">
-                <h2 class="text-3xl font-bold text-gray-800 mb-8">Our analytics that feels like it’s from the future</h2>
-                <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="space-y-8">
-                        <div class="flex flex-col items-center">
-                            <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white mb-4">
-                                <i class="fas fa-shield-alt text-2xl"></i>
+                <!-- Trending Games Section -->
+    <section class="py-16 px-4 sm:px-6 bg-white" data-aos="fade-in">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-orange-500 mb-10 text-center">Trending Games</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <a href="?section=products&game=Call of Duty" class="block transform hover:scale-105 transition duration-300">
+                    <div class="bg-gray-100 rounded-lg overflow-hidden shadow-md" data-aos="fade-up">
+                        <img src='https://lh3.googleusercontent.com/blogger_img_proxy/AEn0k_uQnubLCNMKWx-RJpyGDG2KZEhx-XoMpx0-XsQ3o1YU6VRKW_S-qJD_mxxnq2_Zs7dpkWryd-AZIBhsLAY875E_YTpZwsCokrkDqH7xGZUV0jhfHS8Kzwz_bYlPIVXLV4UHP4WbqFjWQpEIsOLeRa0H=w919-h516-p-k-no-nu' 
+                             alt="Call of Duty" 
+                             class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-orange-500">Call of Duty</h3>
+                        </div>
+                    </div>
+                </a>
+                <a href="?section=products&game=Mortal Kombat" class="block transform hover:scale-105 transition duration-300">
+                    <div class="bg-gray-100 rounded-lg overflow-hidden shadow-md" data-aos="fade-up">
+                        <img src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgzwd-KXPRxTWf1j6SdN2GQW1Xxq0wVsieThFVfv1MaFDiZZcbVWpwDYgkmBjenaw0Psb2U5TpNIJWgjl8179Ntqd8CKLGS9_8NFoeelbDozk3m4Ua8-MWgQfC-nADb6XW2oXoR_AkMSOF4/w919-h516-p-k-no-nu/mortal-kombat-movie-characters-poster-uhdpaper.com-4K-7.3531-wp.thumbnail.jpg' 
+                             alt="Mortal Kombat" 
+                             class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold text-orange-500">Mortal Kombat</h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+             <!-- Why Gamers Trust Us Section -->
+    <section class="py-16 px-4 sm:px-6 bg-gray-50" data-aos="fade-in">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-gray-800 mb-12 text-center">Our analytics that feels like it's from the future</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white mr-4 flex-shrink-0">
+                                <i class="fas fa-shield-alt text-xl"></i>
                             </div>
                             <div>
-                                <h3 class="text-xl font-semibold text-gray-800">Guarantees</h3>
+                                <h3 class="text-xl font-semibold text-gray-800 mb-2">Guarantees</h3>
                                 <p class="text-gray-600">We guarantee that all services will be delivered on time and without any problem.</p>
                             </div>
                         </div>
-                        <div class="flex flex-col items-center">
-                            <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white mb-4">
-                                <i class="fas fa-bolt text-2xl"></i>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white mr-4 flex-shrink-0">
+                                <i class="fas fa-bolt text-xl"></i>
                             </div>
                             <div>
-                                <h3 class="text-xl font-semibold text-gray-800">Fast</h3>
+                                <h3 class="text-xl font-semibold text-gray-800 mb-2">Fast</h3>
                                 <p class="text-gray-600">We handle 500+ souls per hour over 10k souls per day.</p>
                             </div>
                         </div>
-                        <div class="flex flex-col items-center">
-                            <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white mb-4">
-                                <i class="fas fa-fire text-2xl"></i>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white mr-4 flex-shrink-0">
+                                <i class="fas fa-fire text-xl"></i>
                             </div>
                             <div>
-                                <h3 class="text-xl font-semibold text-gray-800">Lit</h3>
+                                <h3 class="text-xl font-semibold text-gray-800 mb-2">Lit</h3>
                                 <p class="text-gray-600">Over 2 years in work completed, 30k regular customers and 90%+ accounts sold.</p>
                             </div>
                         </div>
-                        <div class="flex flex-col items-center">
-                            <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white mb-4">
-                                <i class="fas fa-dollar-sign text-2xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-semibold text-gray-800">Cheap Prices</h3>
-                                <p class="text-gray-600">We will find cheaper trusted seller will do it same price.</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-col items-center">
-                            <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white mb-4">
-                                <i class="fas fa-lock text-2xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-semibold text-gray-800">Secure</h3>
-                                <p class="text-gray-600">We don’t share your account details to anyone. We selling our own accounts only.</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-col items-center">
-                            <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white mb-4">
-                                <i class="fas fa-gift text-2xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-semibold text-gray-800">Bonuses</h3>
-                                <p class="text-gray-600">There are many bonuses for regular customers (up to 50% extra) and many rare equipment cards every order.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div data-aos="fade-up">
-                        <img src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEifjx8gq9ybU8iAD-qdBr0zxPcr5605Gk1wrhyphenhypheneZYOu1LatfRkHK-NKg2AFYYnFBznAebR9LuVd6YpXW3n6yInV8wP9fdsxYzqO0chGf8hdrg8UtHUP2uTO_h079n139b0b6lu9lFPlfd2c/w919-h516-p-k-no-nu/cod-mobile-nikto-dark-side-season-12-skin-uhdpaper.com-4K-8.1944-wp.thumbnail.jpg' alt="COD Mobile Nikto Dark Side Season 12 Skin" class="w-full h-64 object-cover rounded-lg mb-4">
-                        <h3 class="text-xl font-semibold text-gray-800">Account on SALE</h3>
-                        <p class="text-gray-600">Save Activation - GUN LEGEND</p>
-                        <p class="text-gray-500 text-sm">Unlock the ultimate power with this exclusive COD Mobile account, featuring the rare Nikto Dark Side skin from Season 12. Packed with premium weapons and upgrades, this account is your key to dominating the battlefield.</p>
-                        <p class="text-red-500 font-semibold mt-2">20% off</p>
-                        <button class="bg-orange-500 text-white px-6 py-2 rounded-full font-semibold hover:bg-orange-600 mt-4">View Offer</button>
                     </div>
                 </div>
-            </section>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm" data-aos="fade-up">
+                    <img src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEifjx8gq9ybU8iAD-qdBr0zxPcr5605Gk1wrhyphenhypheneZYOu1LatfRkHK-NKg2AFYYnFBznAebR9LuVd6YpXW3n6yInV8wP9fdsxYzqO0chGf8hdrg8UtHUP2uTO_h079n139b0b6lu9lFPlfd2c/w919-h516-p-k-no-nu/cod-mobile-nikto-dark-side-season-12-skin-uhdpaper.com-4K-8.1944-wp.thumbnail.jpg' 
+                         alt="COD Mobile Nikto Dark Side Season 12 Skin" 
+                         class="w-full h-64 object-cover rounded-lg mb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Account on SALE</h3>
+                    <p class="text-gray-600 mb-2">Save Activation - GUN LEGEND</p>
+                    <p class="text-gray-500 text-sm mb-4">Unlock the ultimate power with this exclusive COD Mobile account, featuring the rare Nikto Dark Side skin from Season 12. Packed with premium weapons and upgrades, this account is your key to dominating the battlefield.</p>
+                    <p class="text-red-500 font-semibold text-lg mb-4">20% off</p>
+                    <button class="w-full bg-orange-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-orange-600 transition duration-300">
+                        View Offer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <!-- Learn More Section -->
-            <section class="bg-white py-16" data-aos="fade-in">
+            <!-- Learn More Section
+            
+                        <section class="bg-white py-16" data-aos="fade-in">
                 <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">Learn more for Gaming</h2>
                 <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="bg-gray-100 rounded-lg overflow-hidden" data-aos="fade-up">
@@ -520,7 +558,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_giveaway_entry
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> -->
+
         </section>
 
         <!-- About Section -->
@@ -699,19 +738,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_giveaway_entry
         <!-- Products Section -->
         <section id="products" class="page-section <?php echo $section === 'products' ? 'active' : ''; ?>">
             <div class="container mx-auto px-4 py-8 max-w-4xl">
-                <h1 class="text-5xl font-bold text-gray-800 mb-10">
-                    <?php echo $selected_game ? htmlspecialchars($selected_game) . ' Products' : 'Our Products'; ?>
-                </h1>
+                <div class="heading-image-container" data-aos="fade-up">
+    <?php if ($selected_game === 'Call of Duty'): ?>
+        <img src="https://lh3.googleusercontent.com/blogger_img_proxy/AEn0k_uQnubLCNMKWx-RJpyGDG2KZEhx-XoMpx0-XsQ3o1YU6VRKW_S-qJD_mxxnq2_Zs7dpkWryd-AZIBhsLAY875E_YTpZwsCokrkDqH7xGZUV0jhfHS8Kzwz_bYlPIVXLV4UHP4WbqFjWQpEIsOLeRa0H=w919-h516-p-k-no-nu" alt="Call of Duty Background">
+    <?php elseif ($selected_game === 'Mortal Kombat'): ?>
+        <img src="Uploads/mk.png" alt="Mortal Kombat Background">
+    <?php else: ?>
+        <img src="https://via.placeholder.com/1200x400/333333/666666?text=Our+Products" alt="Products Background">
+    <?php endif; ?>
+    <div class="heading-text-overlay">
+       <h1 class="text-4xl font-bold text-white mb-10">
+    <?php 
+    if ($selected_game) {
+        $display_name = $selected_game === 'Call of Duty' ? 'Call of Duty Mobile' : 'Mortal Kombat Mobile';
+        echo htmlspecialchars($display_name);
+    } else {
+        echo 'Our Game Services';
+    }
+    ?>
+</h1>
+    </div>
+</div>
                  <!-- Tabs Navigation -->
-<div class="flex border-b border-gray-200 mb-6" data-aos="fade-up">
-    <button class="tab-btn px-6 py-3 font-medium text-sm border-b-2 border-orange-500 text-yellow-500 bg-black" data-tab="all">
+<div class="flex border-b border-gray-200 mb-6 gap-2" data-aos="fade-up">
+    <button class="tab-btn px-4 py-1 font-medium text-xs border-b-2 border-orange-500 text-yellow-500 bg-black " data-tab="all">
         All Products
     </button>
-    <button class="tab-btn px-6 py-3 font-medium text-sm text-yellow-500 bg-black hover:text-gray-700" data-tab="buy">
-        Buy Accounts
+    <button class="tab-btn px-4 py-1 font-medium text-xs text-yellow-500 bg-black hover:text-gray-700" data-tab="buy">
+        Buy Products 
     </button>
-    <button class="tab-btn px-6 py-3 font-medium text-sm text-yellow-500 bg-black hover:text-gray-700" data-tab="rent">
-        Rent Accounts
+    <button class="tab-btn px-4 py-1 font-medium text-xs text-yellow-500 bg-black hover:text-gray-700" data-tab="rent">
+        Rent Products
     </button>
 </div>
 
@@ -916,82 +973,87 @@ function closeFullscreen() {
                             ? $row['price'] * (1 - $row['sale_discount'] / 100) 
                             : $row['price'];
                         ?>
-                        <div class="bg-gray-100 rounded-lg overflow-hidden relative cursor-pointer product-card" 
-                            data-product-id="<?php echo $row['id']; ?>" 
-                            data-game="<?php echo htmlspecialchars($row['game_name']); ?>"
-                            data-rentable="<?php echo $row['is_rentable'] ? '1' : '0'; ?>"
-                            data-rent-price="<?php echo $row['rent_price'] ? $row['rent_price'] : '0'; ?>"
-                            data-aos="fade-up">
-                            <?php if ($row['sale_discount'] > 0): ?>
-                                <span class="sale-badge absolute top-2 left-2">
-                                    Sale <?php echo number_format($row['sale_discount'], 0); ?>% Off
-                                </span>
-                            <?php endif; ?>
+                       <div class="bg-gray-100 rounded-lg overflow-hidden relative cursor-pointer product-card" 
+    data-product-id="<?php echo $row['id']; ?>" 
+    data-game="<?php echo htmlspecialchars($row['game_name']); ?>"
+    data-rentable="<?php echo $row['is_rentable'] ? '1' : '0'; ?>"
+    data-rent-price="<?php echo $row['rent_price'] ? $row['rent_price'] : '0'; ?>"
+    data-aos="fade-up">
 
-                            <!-- Slider Container -->
-                            <div class="slider-container">
-                                <div class="slider" id="slider-<?php echo $row['id']; ?>">
-                                    <?php if ($images): ?>
-                                        <?php foreach ($images as $index => $image): ?>
-                                            <div class="slide">
-                                                <img src="Uploads/<?php echo htmlspecialchars($image['image']); ?>" 
-                                                     alt="<?php echo htmlspecialchars($row['name']); ?>">
-                                            </div>
-                                        <?php endforeach; ?>
-                                    <?php else: ?>
-                                        <div class="slide">
-                                            <img src="https://via.placeholder.com/300x192" alt="No image available">
-                                        </div>
-                                    <?php endif; ?>
-                                </div>
-                                <?php if (count($images) > 1): ?>
-                                    <div class="slider-nav">
-                                        <button class="prev" data-slider-id="<?php echo $row['id']; ?>">❮</button>
-                                        <button class="next" data-slider-id="<?php echo $row['id']; ?>">❯</button>
-                                    </div>
-                                    <div class="slider-dots" id="dots-<?php echo $row['id']; ?>">
-                                        <?php foreach ($images as $index => $image): ?>
-                                            <span class="dot <?php echo $index === 0 ? 'active' : ''; ?>" 
-                                                  data-slide="<?php echo $index; ?>" 
-                                                  data-slider-id="<?php echo $row['id']; ?>"></span>
-                                        <?php endforeach; ?>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
+    <?php 
+    $hasSale = $row['sale_price'] > 0 && $row['sale_price'] < $row['price'];
+    if ($hasSale): 
+        $discount_percent = round((($row['price'] - $row['sale_price']) / $row['price']) * 100);
+    ?>
+        <span class="sale-badge absolute top-2 left-2 bg-orange-500 text-white font-bold px-2 py-1 rounded-full z-20">
+            SALE <?php echo $discount_percent; ?>% OFF
+        </span>
+    <?php endif; ?>
 
-                            <!-- Product Details -->
-                            <div class="p-4">
-                                <h3 class="text-xl font-semibold text-gray-800">
-                                    <?php echo htmlspecialchars($row['name']); ?>
-                                </h3>
-                                <div class="mt-2">
-                                    <?php if ($row['sale_discount'] > 0): ?>
-                                        <span class="text-gray-500 line-through">
-                                            $<?php echo number_format($row['price'], 2); ?>
-                                        </span>
-                                        <span class="text-orange-500 font-semibold">
-                                            $<?php echo number_format($discounted_price, 2); ?>
-                                        </span>
-                                    <?php else: ?>
-                                        <span class="text-orange-500 font-semibold">
-                                            $<?php echo number_format($row['price'], 2); ?>
-                                        </span>
-                                    <?php endif; ?>
-                                    <!-- 🚀 Show Rent Price if available -->
-                            <?php if ($is_rentable): ?>
-                                <div class="mt-2 text-blue-500 font-semibold">
-                                    Rent: $<?php echo number_format($row['rent_price'], 2); ?>
-                                </div>
-                            <?php endif; ?>
-                                </div>
-                            </div>
-                        </div>
+    <!-- Slider Container -->
+    <div class="slider-container">
+        <div class="slider" id="slider-<?php echo $row['id']; ?>">
+            <?php if ($images): ?>
+                <?php foreach ($images as $index => $image): ?>
+                    <div class="slide">
+                        <img src="Uploads/<?php echo htmlspecialchars($image['image']); ?>" 
+                             alt="<?php echo htmlspecialchars($row['name']); ?>">
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="slide">
+                    <img src="https://via.placeholder.com/300x192" alt="No image available">
+                </div>
+            <?php endif; ?>
+        </div>
+        <?php if (count($images) > 1): ?>
+            <div class="slider-nav">
+                <button class="prev" data-slider-id="<?php echo $row['id']; ?>">❮</button>
+                <button class="next" data-slider-id="<?php echo $row['id']; ?>">❯</button>
+            </div>
+            <div class="slider-dots" id="dots-<?php echo $row['id']; ?>">
+                <?php foreach ($images as $index => $image): ?>
+                    <span class="dot <?php echo $index === 0 ? 'active' : ''; ?>" 
+                          data-slide="<?php echo $index; ?>" 
+                          data-slider-id="<?php echo $row['id']; ?>"></span>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </div>
 
-                        <!-- Modal for Product -->
+    <!-- Product Details -->
+    <div class="p-4">
+        <h3 class="text-xl font-semibold text-gray-800"><?php echo htmlspecialchars($row['name']); ?></h3>
+        <div class="mt-2">
+            <?php if ($hasSale): ?>
+                <span class="text-gray-500 line-through">
+                    $<?php echo number_format($row['price'], 2); ?>
+                </span>
+                <span class="text-orange-500 font-semibold">
+                    $<?php echo number_format($row['sale_price'], 2); ?>
+                </span>
+            <?php else: ?>
+                <span class="text-orange-500 font-semibold">
+                    $<?php echo number_format($row['price'], 2); ?>
+                </span>
+            <?php endif; ?>
+
+            <?php if ($row['is_rentable'] && $row['rent_price'] > 0): ?>
+                <div class="mt-2 text-blue-500 font-semibold">
+                    Rent: $<?php echo number_format($row['rent_price'], 2); ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+                 <!-- Modal for Product -->
 <div class="modal" id="modal-<?php echo $row['id']; ?>">
     <div class="modal-content">
-        <span class="modal-close">×</span>
+        <span class="modal-close" onclick="closeModal('modal-<?php echo $row['id']; ?>')">&times;</span>
         <h2 class="text-2xl font-bold text-gray-800 mb-4"><?php echo htmlspecialchars($row['name']); ?></h2>
+        
+        <!-- Modal Slider -->
         <div class="modal-slider-container">
             <div class="slider" id="modal-slider-<?php echo $row['id']; ?>">
                 <?php if ($images): ?>
@@ -1021,14 +1083,19 @@ function closeFullscreen() {
                 </div>
             <?php endif; ?>
         </div>
+        
         <p class="text-gray-600 mt-4"><?php echo htmlspecialchars($row['description']); ?></p>
+        
         <div class="mt-4">
-            <?php if ($row['sale_discount'] > 0): ?>
+            <?php if ($row['sale_price'] > 0): ?>
                 <span class="text-gray-500 line-through">
                     $<?php echo number_format($row['price'], 2); ?>
                 </span>
                 <span class="text-orange-500 font-semibold">
-                    $<?php echo number_format($discounted_price, 2); ?>
+                    $<?php echo number_format($row['sale_price'], 2); ?>
+                </span>
+                <span class="text-sm bg-orange-500 text-white px-2 py-1 rounded ml-2">
+                    SAVE <?php echo round(($row['price'] - $row['sale_price']) / $row['price'] * 100); ?>%
                 </span>
             <?php else: ?>
                 <span class="text-orange-500 font-semibold">
@@ -1039,51 +1106,51 @@ function closeFullscreen() {
             <?php if ($row['is_rentable'] && $row['rent_price']): ?>
                 <div class="mt-2">
                     <span class="text-gray-700">Rent Price:</span>
-                    <span class="text-orange-500 font-semibold">
+                    <span class="text-blue-500 font-semibold">
                         $<?php echo number_format($row['rent_price'], 2); ?>
                     </span>
                 </div>
             <?php endif; ?>
         </div>
         
-         <!-- Transaction Form -->
-<div id="transaction-form-<?php echo $row['id']; ?>" class="mt-6 hidden transaction-form-container">
-    <form method="POST" action="process_transaction.php">
-        <input type="hidden" name="product_id" value="<?php echo $row['id']; ?>">
-        <input type="hidden" name="transaction_type" id="transaction-type-<?php echo $row['id']; ?>">
-        
-        <div class="mb-4">
-            <label class="block text-gray-700 font-semibold mb-2">First Name</label>
-            <input type="text" name="first_name" class="w-full border border-gray-300 rounded p-2" required>
+        <!-- Transaction Form -->
+        <div id="transaction-form-<?php echo $row['id']; ?>" class="mt-6 hidden">
+            <form method="POST" action="process_transaction.php">
+                <input type="hidden" name="product_id" value="<?php echo $row['id']; ?>">
+                <input type="hidden" name="transaction_type" id="transaction-type-<?php echo $row['id']; ?>">
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold mb-2">First Name</label>
+                    <input type="text" name="first_name" class="w-full border border-gray-300 rounded p-2" required>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold mb-2">Last Name</label>
+                    <input type="text" name="last_name" class="w-full border border-gray-300 rounded p-2" required>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold mb-2">Email</label>
+                    <input type="email" name="email" class="w-full border border-gray-300 rounded p-2" required>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold mb-2">Phone (Optional)</label>
+                    <input type="tel" name="phone" class="w-full border border-gray-300 rounded p-2">
+                </div>
+                
+                <button type="submit" class="w-full bg-orange-500 text-white font-semibold py-2 rounded hover:bg-orange-600 mb-4">
+                    <span id="submit-text-<?php echo $row['id']; ?>">Submit</span>
+                </button>
+                
+                <button type="button" 
+                        onclick="hideTransactionForm(<?php echo $row['id']; ?>)" 
+                        class="w-full bg-gray-300 text-gray-700 font-semibold py-2 rounded hover:bg-gray-400">
+                    Back to Options
+                </button>
+            </form>
         </div>
-        
-        <div class="mb-4">
-            <label class="block text-gray-700 font-semibold mb-2">Last Name</label>
-            <input type="text" name="last_name" class="w-full border border-gray-300 rounded p-2" required>
-        </div>
-        
-        <div class="mb-4">
-            <label class="block text-gray-700 font-semibold mb-2">Email</label>
-            <input type="email" name="email" class="w-full border border-gray-300 rounded p-2" required>
-        </div>
-        
-        <div class="mb-4">
-            <label class="block text-gray-700 font-semibold mb-2">Phone (Optional)</label>
-            <input type="tel" name="phone" class="w-full border border-gray-300 rounded p-2">
-        </div>
-        
-        <button type="submit" class="w-full bg-orange-500 text-white font-semibold py-2 rounded hover:bg-orange-600 mb-4">
-            <span id="submit-text-<?php echo $row['id']; ?>">Submit</span>
-        </button>
-        
-        <!-- Add a back button to return to action buttons -->
-        <button type="button" 
-                onclick="hideTransactionForm(<?php echo $row['id']; ?>)" 
-                class="w-full bg-gray-300 text-gray-700 font-semibold py-2 rounded hover:bg-gray-400">
-            Back to Options
-        </button>
-    </form>
-</div>
+       
         <script>
 document.addEventListener('DOMContentLoaded', function() {
     const tabs = document.querySelectorAll('.tab-btn');
@@ -1530,13 +1597,7 @@ function initSlider(sliderId, dotsId) {
 }
 
 // Initialize Sliders
-document.querySelectorAll('.slider').forEach(slider => {
-    const id = slider.id;
-    const isModal = id.startsWith('modal-slider-');
-    const productId = id.split('-').pop();
-    const dotsId = isModal ? `modal-dots-${productId}` : `dots-${productId}`;
-    initSlider(id, dotsId);
-});
+
 
         // Product Modal - Modified to properly reset form state
 document.querySelectorAll('.product-card').forEach(card => {
