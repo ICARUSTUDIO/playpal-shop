@@ -79,21 +79,26 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     exit();
 }
 
-// Log user visit
-if (isset($_SESSION['admin_id'])) {
-    $user_id = $_SESSION['admin_id'];
-    $stmt = $conn->prepare("INSERT INTO user_visits (user_id) VALUES (?)");
-    $stmt->bind_param("i", $user_id);
+// Track visitor (replace your current tracking code)
+if (!isset($_SESSION['visitor_id'])) {
+    $_SESSION['visitor_id'] = session_id();
+    
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+    
+    $stmt = $conn->prepare("INSERT IGNORE INTO user_visits (session_id, ip_address, user_agent) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $_SESSION['visitor_id'], $ip, $userAgent);
     $stmt->execute();
     $stmt->close();
 }
 
-// Get number of unique visitors
-$unique_visitors = 0;
-$result = $conn->query("SELECT COUNT(DISTINCT user_id) AS unique_count FROM user_visits");
-if ($result && $result->num_rows > 0) {
-    $unique_visitors = $result->fetch_assoc()['unique_count'];
-}
+// Get unique visitors count
+$result = $conn->query("
+    SELECT COUNT(DISTINCT session_id) AS unique_count 
+    FROM user_visits
+    WHERE visit_time >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+");
+$unique_visitors = $result->fetch_assoc()['unique_count'];
 
 // Handle logout
 if (isset($_GET['logout'])) {
@@ -119,9 +124,18 @@ $success = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
     $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
     $description = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
-    $price = filter_var($_POST['price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-    $sale_discount = filter_var($_POST['sale_discount'] ?? 0, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-    $game_id = filter_var($_POST['game_id'], FILTER_SANITIZE_NUMBER_INT);
+    $product_type = $_POST['product_type'] === 'rent' ? 'rent' : 'buy';
+    
+    if($product_type === 'rent') {
+        $rent_price = filter_var($_POST['rent_price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        $price = 0;
+        $sale_price = null;
+    } else {
+        $price = filter_var($_POST['price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        $sale_price = !empty($_POST['sale_price']) ? filter_var($_POST['sale_price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION) : null;
+        $rent_price = null;
+    }
+    $sale_price = !empty($_POST['sale_price']) ? filter_var($_POST['sale_price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION) : null;    $game_id = filter_var($_POST['game_id'], FILTER_SANITIZE_NUMBER_INT);
     $is_rentable = isset($_POST['is_rentable']) ? 1 : 0;
     $rent_price = $is_rentable ? filter_var($_POST['rent_price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION) : null;
 
@@ -166,8 +180,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
 
     if (empty($errors)) {
         // Insert product
-        $stmt = $conn->prepare("INSERT INTO products (name, description, price, sale_discount, game_id, is_rentable, rent_price) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssddiid", $name, $description, $price, $sale_discount, $game_id, $is_rentable, $rent_price);
+        $stmt = $conn->prepare("INSERT INTO products (name, description, price, sale_price, game_id, is_rentable, rent_price) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssddiid", $name, $description, $price, $sale_price, $game_id, $is_rentable, $rent_price);
         if ($stmt->execute()) {
             $product_id = $conn->insert_id;
             // Insert images
@@ -191,8 +205,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_product'])) {
     $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
     $description = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
     $price = filter_var($_POST['price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-    $sale_discount = filter_var($_POST['sale_discount'] ?? 0, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-    $game_id = filter_var($_POST['game_id'], FILTER_SANITIZE_NUMBER_INT);
+    $sale_price = !empty($_POST['sale_price']) ? filter_var($_POST['sale_price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION) : null;    $game_id = filter_var($_POST['game_id'], FILTER_SANITIZE_NUMBER_INT);
     $is_rentable = isset($_POST['is_rentable']) ? 1 : 0;
     $rent_price = $is_rentable ? filter_var($_POST['rent_price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION) : null;
 
@@ -235,8 +248,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_product'])) {
 
     if (empty($errors)) {
         // Update product
-        $stmt = $conn->prepare("UPDATE products SET name = ?, description = ?, price = ?, sale_discount = ?, game_id = ?, is_rentable = ?, rent_price = ? WHERE id = ?");
-        $stmt->bind_param("ssddiidi", $name, $description, $price, $sale_discount, $game_id, $is_rentable, $rent_price, $id);
+        $stmt = $conn->prepare("INSERT INTO products (name, description, price, sale_price, game_id, is_rentable, rent_price) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssddiid", $name, $description, $price, $sale_price, $game_id, $is_rentable, $rent_price);
         if ($stmt->execute()) {
             // Update images if new ones were uploaded
             if (!empty($image_names)) {
@@ -853,6 +866,7 @@ function updateSuggestionStatus(id, status) {
 
         <div class="bg-white p-6 rounded-lg shadow mb-8">
             <h2 class="text-2xl font-semibold text-gray-800 mb-4">Manage Giveaways</h2>
+            <div class="overflow-x-auto">
             <table class="w-full table-auto">
                 <thead>
                     <tr class="bg-gray-200">
@@ -894,6 +908,7 @@ function updateSuggestionStatus(id, status) {
                     ?>
                 </tbody>
             </table>
+            </div>
         </div>
 
         <?php if ($success): ?>
@@ -928,8 +943,11 @@ function updateSuggestionStatus(id, status) {
                     <input type="number" id="price" name="price" step="0.01" min="0" value="<?php echo $edit_product ? htmlspecialchars($edit_product['price']) : ''; ?>" class="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-orange-500" required>
                 </div>
                 <div>
-                    <label class="block text-gray-700 font-semibold mb-2" for="sale_discount">Sale Discount (%)</label>
-                    <input type="number" id="sale_discount" name="sale_discount" step="0.01" min="0" max="100" value="<?php echo $edit_product ? htmlspecialchars($edit_product['sale_discount']) : '0'; ?>" class="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-orange-500">
+                    <label class="block text-gray-700 font-semibold mb-2" for="sale_price">Sale Price ($)</label>
+                    <input type="number" id="sale_price" name="sale_price" step="0.01" min="0" 
+                           value="<?php echo $edit_product ? htmlspecialchars($edit_product['sale_price']) : ''; ?>" 
+                           class="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-orange-500">
+                    <p class="text-gray-600 text-sm mt-1">Leave empty for no sale</p>
                 </div>
                 <div>
                     <label class="block text-gray-700 font-semibold mb-2" for="game_id">Game</label>
@@ -985,6 +1003,7 @@ document.getElementById('is_rentable').addEventListener('change', function() {
 
         <div class="bg-white p-6 rounded-lg shadow">
             <h2 class="text-2xl font-semibold text-gray-800 mb-4">Manage Products</h2>
+            <div class="overflow-x-auto">
             <table class="w-full table-auto">
                 <thead>
                     <tr class="bg-gray-200">
@@ -992,8 +1011,8 @@ document.getElementById('is_rentable').addEventListener('change', function() {
                         <th class="px-4 py-2 text-left">Name</th>
                         <th class="px-4 py-2 text-left">Description</th>
                         <th class="px-4 py-2 text-left">Price</th>
-                        <th class="px-4 py-2 text-left">Sale Discount</th>
-                        <th class="px-4 py-2 text-left">Game</th>
+<th class="px-4 py-2 text-left">Sale Price</th>
+<th class="px-4 py-2 text-left">Game</th>
                         <th class="px-4 py-2 text-left">Actions</th>
                     </tr>
                 </thead>
@@ -1027,8 +1046,7 @@ document.getElementById('is_rentable').addEventListener('change', function() {
                                 <td class="px-4 py-2"><?php echo htmlspecialchars($row['name']); ?></td>
                                 <td class="px-4 py-2"><?php echo htmlspecialchars($row['description']); ?></td>
                                 <td class="px-4 py-2">$<?php echo number_format($row['price'], 2); ?></td>
-                                <td class="px-4 py-2"><?php echo $row['sale_discount'] > 0 ? number_format($row['sale_discount'], 2) . '%' : 'None'; ?></td>
-                                <td class="px-4 py-2"><?php echo htmlspecialchars($row['game_name']); ?></td>
+<td class="px-4 py-2"><?php echo $row['sale_price'] > 0 ? '$' . number_format($row['sale_price'], 2) : 'None'; ?></td>                                <td class="px-4 py-2"><?php echo htmlspecialchars($row['game_name']); ?></td>
                                 <td class="px-4 py-2">
                                     <a href="?edit=<?php echo $row['id']; ?>" class="text-blue-500 hover:underline mr-2">Edit</a>
                                     <a href="?delete=<?php echo $row['id']; ?>" class="text-red-500 hover:underline" onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
