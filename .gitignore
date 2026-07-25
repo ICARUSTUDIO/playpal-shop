@@ -1,0 +1,22 @@
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+playpal/config.local.php
+
+# Logs and runtime files
+*.log
+playpal/Uploads/*
+!playpal/Uploads/.gitkeep
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Database exports and backups
+*.bak
+*.dump
+DB backup/
+u*_playpal_db.sql
